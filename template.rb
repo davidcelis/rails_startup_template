@@ -11,6 +11,22 @@ gem "bourbon"
 # HAML templating language (http://haml.info)
 gem "haml-rails" if yes?("Use HAML instead of ERB?")
 
+# Bootstrap: install the bootstrap-rails gem from anjlab
+# Note: This is 3.0 RC1, file location may change soon
+# ==================================================
+if yes?("Install bootstrap?")
+  gem "bootstrap-rails", github: 'anjlab/bootstrap-rails', branch: '3.0.0'
+  run "echo '@import \"twitter/bootstrap\";' >>  app/assets/stylesheets/application.css.scss"
+end
+
+
+# Font-awesome: install from the font-awesome-rails gem
+# ==================================================
+if yes?("Install font-awesome?")
+  gem "font-awesome-rails"
+  run "echo '@import \"font-awesome\";' >>  app/assets/stylesheets/application.css.scss"
+end
+
 # Simple form builder (https://github.com/plataformatec/simple_form)
 gem "simple_form"
 # To generate UUIDs, useful for various things
@@ -68,32 +84,6 @@ run "sed -i '' /require_tree/d app/assets/stylesheets/application.css.scss"
 run "echo >> app/assets/stylesheets/application.css.scss"
 run "echo '@import \"bourbon\";' >>  app/assets/stylesheets/application.css.scss"
 
-
-
-
-# Bootstrap: install from https://github.com/twbs/bootstrap
-# Note: This is 3.0 RC1, file location may change soon
-# ==================================================
-if yes?("Download bootstrap?")
-  run "wget http://getbootstrap.com/bs-v3.0.0-rc1-dist.zip -O bootstrap.zip"
-  run "unzip bootstrap.zip -d bootstrap && rm bootstrap.zip"
-  run "cp bootstrap/dist/css/bootstrap.css vendor/assets/stylesheets/"
-  run "cp bootstrap/dist/js/bootstrap.js vendor/assets/javascripts/"
-  run "rm -rf bootstrap"
-  run "echo '@import \"bootstrap\";' >>  app/assets/stylesheets/application.css.scss"
-end
-
-
-# Font-awesome: Install from http://fortawesome.github.io/Font-Awesome/
-# ==================================================
-if yes?("Download font-awesome?")
-  run "wget http://fortawesome.github.io/Font-Awesome/assets/font-awesome.zip -O font-awesome.zip"
-  run "unzip font-awesome.zip && rm font-awesome.zip"
-  run "cp font-awesome/css/font-awesome.css vendor/assets/stylesheets/"
-  run "cp -r font-awesome/font public/font"
-  run "rm -rf font-awesome"
-  run "echo '@import \"font-awesome\";' >>  app/assets/stylesheets/application.css.scss"
-end
 
 
 # DS_Store gets added to project if viewed in OSX Finder
